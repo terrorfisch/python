@@ -82,10 +82,15 @@ def boost_suffix(env):
                 suffix += "-clang" + "".join(env["CXXVERSION"].split(".")[0:2])
             else: # assume g++
                 suffix += "-gcc" + "".join(env["CXXVERSION"].split(".")[0:2])
+        elif "msvc" in env["TOOLS"]:
+            suffix += ("-vc%s" % env["MSVS_VERSION"]).replace(".","")
     if env["THREADING"] == "multi":
         suffix += "-mt"
     if env["DEBUG"]:
-        suffix += "-d"
+        if "msvc" in env["TOOLS"]:
+            suffix += "-gd"
+        else:
+            suffix += "-d"
     if env["layout"] == "versioned":
         suffix += "-" + "_".join(env["BPL_VERSION"].split("."))
 

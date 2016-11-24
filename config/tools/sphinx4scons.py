@@ -83,6 +83,10 @@ def _detect(env):
     sphinx = env.WhereIs('sphinx-build')
     if sphinx:
         return sphinx
+    
+    sphinx = env.WhereIs('sphinx-build',path=os.environ['PATH'])
+    if sphinx:
+        return sphinx
 
     raise SCons.Errors.StopError(
         SphinxBuilderNotFound,

@@ -15,9 +15,21 @@ def add_options(vars):
 
 def check(context):
 
-    source = r"""#if __cplusplus < 201103L
+    source = r"""
+#ifdef _MSC_VER
+
+#if _MSC_VER < 1700
 #error no C++11
-#endif"""
+#endif
+
+#else
+
+#if __cplusplus < 201103L
+#error no C++11
+#endif
+
+#endif
+"""
 
     context.Message('Checking for C++11 support...')
 

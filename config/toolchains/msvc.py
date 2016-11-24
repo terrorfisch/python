@@ -12,7 +12,7 @@ class features:
 
     @classmethod
     def init_once(cls, env):
-        env.AppendUnique(CCFLAGS = ['-TP', '/Z7', '/W3' ,'/GR', '/MDd', '/Zc:forScope', '/Zc:wchar_t', '/wd4675', '/EHs'])
+        env.AppendUnique(CCFLAGS = ['/TP', '/W3' ,'/GR', '/Zc:forScope', '/Zc:wchar_t', '/wd4675', '/EHs'])
         env.AppendUnique(LINKFLAGS = ['/subsystem:console'])
 
     @staticmethod
@@ -25,18 +25,18 @@ class features:
 
     @staticmethod
     def optimize(env, optimize):
-        #if not optimize or optimize == "no":
-        #    append_feature_flag(env, CCFLAGS = "-O0 -fno-inline")
-        #elif optimize == "speed":
-        #    append_feature_flag(env, CCFLAGS = "-O3 -finline-functions -Wno-inline")
-        #elif optimize == "space":
-        #    append_feature_flag(env, CCFLAGS = "-Os")
-        #else:
+        if not optimize or optimize == "no":
+            append_feature_flag(env, CCFLAGS = "/Od")
+        elif optimize == "speed":
+            append_feature_flag(env, CCFLAGS = "/O1")
+        elif optimize == "space":
+            append_feature_flag(env, CCFLAGS = "/O2")
+        else:
             append_feature_flag(env, CCFLAGS = "")
 
     @staticmethod
     def profile(env, profile):
-        #if profile:
+        if profile:
         #    append_feature_flag(env, CCFLAGS = "-pg", LINKFLAGS = "-pg")
         #else:
             append_feature_flag(env, CCFLAGS = "", LINKFLAGS = "")
@@ -51,7 +51,7 @@ class features:
 
     @staticmethod
     def debug(env, debug):
-        #if debug:
-        #    append_feature_flag(env, CCFLAGS = "-g", CPPDEFINES = [])
-        #else:
-            append_feature_flag(env, CCFLAGS = "", CPPDEFINES = "NDEBUG")
+        if debug:
+            append_feature_flag(env, CCFLAGS = ['/Z7', '/MDd'], CPPDEFINES = [])
+        else:
+            append_feature_flag(env, CCFLAGS = ['/MD'], )
